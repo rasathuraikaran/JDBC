@@ -6,7 +6,7 @@ public class JDBCdemo {
         String url = "jdbc:mysql://localhost:3306/jdbcexample1";
 
         String userName = "root";
-        String password = "1234";
+        String password = "";
         Connection con = DriverManager.getConnection(url, userName, password);// connection establishment
         String query = "select * from employee";
         Statement st = con.createStatement();//statement object is needed to execute query
