@@ -3,8 +3,7 @@ import java.sql.*;
 public class JDBCdemo {
     public static void main(String[] args) throws SQLException {
 
-        deleteRecords(5);
-        readRecords();
+       storeProcedureCall();
 
     }
 
@@ -48,19 +47,36 @@ public class JDBCdemo {
     }
 
 
-
     public static void deleteRecords(int id) throws SQLException {
         String url = "jdbc:mysql://localhost:3306/jdbcexample1";
 
         String userName = "root";
         String password = "";
         Connection con = DriverManager.getConnection(url, userName, password);// connection establishment
-        String query = "delete from employee where emp_id= "+id;
+        String query = "delete from employee where emp_id= " + id;
         Statement st = con.createStatement();//statement object is needed to execute query
         int rows = st.executeUpdate(query);
 
 
+        con.close();
 
+    }
+
+
+    public static void storeProcedureCall() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/jdbcexample1";
+
+        String userName = "root";
+        String password = "";
+        Connection con = DriverManager.getConnection(url, userName, password);// connection establishment
+        CallableStatement cs = con.prepareCall("{call getEmp()}");
+
+        ResultSet rs = cs.executeQuery();
+        while (rs.next()) {
+            System.out.println("Id is " + rs.getInt(1));
+            System.out.println("Name is " + rs.getString(2));
+            System.out.println("Salary is " + rs.getInt(3));
+        }
 
         con.close();
 
