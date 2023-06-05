@@ -2,8 +2,9 @@ import java.sql.*;
 
 public class JDBCdemo {
     public static void main(String[] args) throws SQLException {
+commitdemo();
+       readRecords();
 
-       storeProcedureCall();
 
     }
 
@@ -78,6 +79,30 @@ public class JDBCdemo {
             System.out.println("Salary is " + rs.getInt(3));
         }
 
+        con.close();
+
+    }
+
+
+
+
+    public static void commitdemo() throws SQLException {
+        String url = "jdbc:mysql://localhost:3306/jdbcexample1";
+
+        String userName = "root";
+        String password = "";
+
+        String query="update employee set salary =55000 where emp_id=1";
+        String query1="update employee set salary =56000 where emp_id=2";
+
+        Connection con = DriverManager.getConnection(url, userName, password);// connection establishment
+        Statement st=con.createStatement();
+        con.setAutoCommit(false);
+        int rows1=st.executeUpdate(query);
+        System.out.println(rows1);
+        int rows2=st.executeUpdate(query1);
+        System.out.println(rows2);
+        if(rows1+rows2==2) con.commit();
         con.close();
 
     }
